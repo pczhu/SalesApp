@@ -1,5 +1,5 @@
 from flask_script import Manager,commands
-from todoapp import app
+from SalesApp import app
 
 manager = Manager(app)
 
