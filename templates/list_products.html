@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import icon %}
+{% block content %}
+    <div class="row-fluid">
+		<div class="span6"><a  class="btn btn-sm btn-default" href="new-category">Add Category</a></div>
+		<div class="span6"><a  class="btn btn-sm btn-default" href="new-product">Add Product</a></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<h3 class="lead">Category</h3>
+			<div id="rounded">
+			<table id="salesrecord-table" class="table" style="table-layout: fixed">
+			   {%- for category in categories %}
+					<tr>
+						<td>
+							<a href="{{ url_for('list_products', name=category.name) }}">{{ category.name }}</a>
+						</td>
+						<td>
+							<a  class="btn btn-sm btn-default" href="{{ url_for('edit_category', category_id=category.id) }}">{{ icon('edit') }} Edit</a>
+						</td>
+						<td>
+							<form id="catdel-{{ category.name }}" action="{{ url_for('delete_category', category_id=category.id) }}" method="post">
+								<a class="btn btn-sm btn-danger" onclick="$('#catdel-{{ category.name }}').submit();">{{ icon('trash') }} Delete</a>
+							</form>
+						</td>
+					</tr>
+				{%- endfor %}
+			</table>
+		</div>
+		</div>
+		<div class="col-md-9">
+			{% if products|count > 0 %}
+			<h3 class="lead">Products</h3>
+			<table id="product-table" class="table">
+			   <tr>
+					<th>#</th>
+					<th>SKU</th>
+					<th>Inventory Code</th>
+					<th>Specific Model</th>
+				</tr>
+				{%- for product in products %}
+						<td> {{ loop.index }} </td>
+						<td>{{ product.sku }}</td>
+						<td>{{ product.invcode }}</td>
+						<td>{{ product.specificmodel }}</td>
+						<td>
+							<a class="btn btn-xs btn-default"  href="{{ url_for('update_product', product_id=product.id) }}" >{{ icon('edit') }} Edit</a>
+							<form id=delform action="{{ url_for('delete_product', product_id=product.id) }}" method="post">
+								{#<input class="btn btn-xs btn-danger" type="submit" name="delete_product_id" value="Delete">#}
+								<a onclick="$('#delform').submit();" class="btn btn-xs btn-danger" id="delete_product_id" href="#">{{ icon('trash') }} Delete</a>
+							</form>
+						</td>
+					</tr>
+				{%- endfor %}
+			</table>
+			{% else %}
+			<h3 class=lead>No Product Yet</h3>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

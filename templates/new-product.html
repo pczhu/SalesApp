@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form action="" method=post>
+    <h2>{%- if todo is defined %} Edit {% else %} Create new {% endif -%}Product</h2>
+        <div class="control-group">
+            <div class="control-group" >
+                <div class="controls">
+                    <select class="selectpicker" name="category" required>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {%if product is defined %}{% if product.category_id == category.id %} selected {% endif %}{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <hr> 
+            <div class="control-group">
+                <div class="controls">
+				<h3>SKU</h3>
+                    <input 
+                        type="text" 
+                        id="sku" 
+                        name="sku" 
+                        maxlength="60" 
+                        class="form-control input-xlarge"
+                        placeholder="Type the SKU here" 
+                        {% if product is defined -%}
+                            value="{{ product.sku }}"
+                        {% endif -%}
+                        required
+                      />
+					  
+					  <hr>
+					  <h3>Inventory Code</h3>
+					  <input 
+                        type="text" 
+                        id="invcode" 
+                        name="invcode" 
+                        maxlength="60" 
+                        class="form-control input-xlarge"
+                        placeholder="Type the inventory code here" 
+                        {% if product is defined -%}
+                            value="{{ product.invcode }}"
+                        {% endif -%}
+                        required
+                      />
+					  <hr>
+					  <h3>Specific Model</h3>
+					  <input 
+                        type="text" 
+                        id="specificmodel" 
+                        name="specificmodel" 
+                        maxlength="60" 
+                        class="form-control input-xlarge"
+                        placeholder="Describe the product" 
+                        {% if product is defined -%}
+                            value="{{ product.specificmodel }}"
+                        {% endif -%}
+                        required
+                      />
+					  
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">
+                    {% if product %}
+                        Save
+                    {% else %}
+                        Create Product
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
